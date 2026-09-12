@@ -1,6 +1,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/htlin222/openlogi-spotlight)](https://github.com/htlin222/openlogi-spotlight/stargazers)
-[![CI](https://github.com/htlin222/openlogi-spotlight/actions/workflows/ci.yml/badge.svg)](https://github.com/htlin222/openlogi-spotlight/actions/workflows/ci.yml)
+[![GitHub stars](https://img.shields.io/github/stars/janewenthome/openlogi-spotlight)](https://github.com/janewenthome/openlogi-spotlight/stargazers)
+[![CI](https://github.com/janewenthome/openlogi-spotlight/actions/workflows/ci.yml/badge.svg)](https://github.com/janewenthome/openlogi-spotlight/actions/workflows/ci.yml)
 
 # OpenLogi Spotlight
 
@@ -72,7 +72,7 @@ make app
   author = {Lin, Hsieh-Ting},
   title = {{openlogi-spotlight}: macOS presentation spotlight companion for OpenLogi},
   year = {2026},
-  url = {https://github.com/htlin222/openlogi-spotlight},
+  url = {https://github.com/janewenthome/openlogi-spotlight},
   version = {0.1.0}
 }
 ```
