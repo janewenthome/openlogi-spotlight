@@ -30,6 +30,7 @@ OpenLogi 的設定通常位於 `~/.config/openlogi/config.toml`。請先完全�
 
 ```toml
 [devices."<your-physical-device-key>".bindings]
+Back = { CustomShortcut = "Cmd+Shift+4" }
 Forward = { CustomShortcut = "F13" }
 ```
 

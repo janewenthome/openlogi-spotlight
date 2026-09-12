@@ -23,7 +23,7 @@
    ```
 
 3. 設定兩個不同的 macOS 權限：Bluetooth 直連的 LIFT 需要讓 `OpenLogiAgent.app` 使用「輸入監控」；本 companion app 則需要在「輔助使用」中允許 `OpenLogiSpotlight.app`。兩者不是同一個開關，詳見 [排錯指南](docs/TROUBLESHOOTING.md)。
-4. 依照 [OpenLogi 設定說明](docs/OPENLOGI-SETUP.md)，把滑鼠的 Forward 側鍵映射成 `F13`。
+4. 依照 [OpenLogi 設定說明](docs/OPENLOGI-SETUP.md)，把滑鼠的 Forward 側鍵映射成 `F13`；也可以把 Back 側鍵映射成 `Cmd+Shift+4` 來啟動 macOS 區域截圖。
 5. 開啟 PowerPoint、Keynote、Google Slides 或其他簡報播放畫面，按下該滑鼠按鍵即可切換聚光燈。
 
 也可以直接用快捷鍵測試：

@@ -55,10 +55,11 @@ OpenLogi 0.7.4 的 GUI 動作清單沒有 Custom Shortcut，因此不要在 GUI 
 
 ```toml
 [devices."<your-physical-device-key>".bindings]
+Back = { CustomShortcut = "Cmd+Shift+4" }
 Forward = { CustomShortcut = "F13" }
 ```
 
-`<your-physical-device-key>` 必須使用 OpenLogi 實際寫出的完整 key；不要自行猜 `unit:` 或 `serial:`。F13 使用零修飾鍵，不受注音輸入法、Windows 鍵盤的 Command/Option 標示或文字鍵盤配置影響。
+`<your-physical-device-key>` 必須使用 OpenLogi 實際寫出的完整 key；不要自行猜 `unit:` 或 `serial:`。F13 使用零修飾鍵，不受注音輸入法、Windows 鍵盤的 Command/Option 標示或文字鍵盤配置影響。`Cmd+Shift+4` 會進入 macOS 區域截圖模式，按下後仍需拖曳選取範圍。
 
 ## 判斷問題在哪一段
 
