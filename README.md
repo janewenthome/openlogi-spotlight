@@ -1,3 +1,7 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/htlin222/openlogi-spotlight)](https://github.com/htlin222/openlogi-spotlight/stargazers)
+[![CI](https://github.com/htlin222/openlogi-spotlight/actions/workflows/ci.yml/badge.svg)](https://github.com/htlin222/openlogi-spotlight/actions/workflows/ci.yml)
+
 # OpenLogi Spotlight
 
 讓滑鼠自訂按鍵在簡報時切換 macOS 聚光燈效果的原生 companion app。它搭配 [OpenLogi](https://github.com/AprilNEA/OpenLogi) 使用：OpenLogi 負責把 Logitech 滑鼠按鍵映射成快捷鍵，本專案負責顯示全螢幕、可穿透滑鼠操作的聚光燈 overlay。
@@ -58,3 +62,17 @@ make app
 ## License
 
 本專案採 MIT License。詳見 [LICENSE](LICENSE)。
+
+## Citation
+
+如果這個專案對你的工作有幫助，請引用 [CITATION.cff](CITATION.cff) 或使用以下 BibTeX：
+
+```bibtex
+@software{lin2026openlogispotlight,
+  author = {Lin, Hsieh-Ting},
+  title = {{openlogi-spotlight}: macOS presentation spotlight companion for OpenLogi},
+  year = {2026},
+  url = {https://github.com/htlin222/openlogi-spotlight},
+  version = {0.1.0}
+}
+```
