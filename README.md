@@ -2,7 +2,7 @@
 
 讓滑鼠自訂按鍵在簡報時切換 macOS 聚光燈效果的原生 companion app。它搭配 [OpenLogi](https://github.com/AprilNEA/OpenLogi) 使用：OpenLogi 負責把 Logitech 滑鼠按鍵映射成快捷鍵，本專案負責顯示全螢幕、可穿透滑鼠操作的聚光燈 overlay。
 
-目前版本是 macOS 13+ 的 MVP，預設快捷鍵為 `⌘⇧9`。按一次顯示/隱藏聚光燈，按 `Esc` 可隱藏；游標移動時光圈會跟隨。
+目前版本是 macOS 13+ 的 MVP，預設快捷鍵為 `F13`。它不使用 Command、Option 或文字鍵，因此不受 Windows 鍵盤標示與注音輸入法影響。按一次顯示/隱藏聚光燈，按 `Esc` 可隱藏；游標移動時光圈會跟隨。
 
 ## 快速開始
 
@@ -18,8 +18,8 @@
    ./scripts/install.sh
    ```
 
-3. 第一次啟動時，到「系統設定 → 隱私權與安全性 → 輔助使用」允許 `OpenLogiSpotlight`。
-4. 在 OpenLogi 中，將滑鼠想使用的自訂按鍵設定成 `⌘⇧9`（可參考 [OpenLogi 設定說明](docs/OPENLOGI-SETUP.md)）。
+3. 第一次啟動時，允許 macOS 跳出的 `OpenLogiSpotlight` 輔助使用提示；若沒有跳出，請到「系統設定 → 隱私權與安全性 → 輔助使用」手動加入它。
+4. 依照 [OpenLogi 設定說明](docs/OPENLOGI-SETUP.md)，把滑鼠的 Forward 側鍵映射成 `F13`。
 5. 開啟 PowerPoint、Keynote、Google Slides 或其他簡報播放畫面，按下該滑鼠按鍵即可切換聚光燈。
 
 也可以直接用快捷鍵測試：

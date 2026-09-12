@@ -3,6 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 APP_DIR="$ROOT_DIR/outputs/OpenLogiSpotlight.app"
+swift build --configuration release
 BIN_DIR="$(swift build --configuration release --show-bin-path)"
 
 mkdir -p "$APP_DIR/Contents/MacOS" "$APP_DIR/Contents/Resources"

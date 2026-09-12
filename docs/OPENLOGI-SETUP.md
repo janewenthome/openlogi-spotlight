@@ -8,28 +8,28 @@ brew install --cask openlogi
 
 請先完全結束 Logitech Options+，兩個程式不能同時擁有同一個 receiver 的 HID++ 存取權。第一次使用 OpenLogi 時，依照它的提示允許輔助使用與輸入監控權限。
 
-## 用 GUI 設定（建議）
+## 用 GUI 確認按鍵（建議）
 
 1. 開啟 OpenLogi，選取你的 Logitech 滑鼠。
 2. 在按鍵/Buttons 設定中選取要作為聚光燈的按鍵，例如 Back、Forward、Middle、DPI Toggle 或裝置提供的其他控制。
-3. 選擇自訂快捷鍵/Custom Shortcut，錄製 `⌘⇧9`。
-4. 儲存設定後，在文字編輯器中按該滑鼠按鍵，應該會輸入或觸發相同的快捷鍵；再啟動 OpenLogi Spotlight 測試。
+3. 截圖中的 OpenLogi v0.7.4 GUI 目前只有內建動作，沒有顯示 Custom Shortcut；請不要在這個選單裡找 `⌘⇧9`。
+4. 先記下你要使用的按鍵名稱。你的目前裝置是 `LIFT For Business`，截圖選取的是 `Forward (側鍵 5)`。
 
 ## 用 TOML 設定（進階）
 
-OpenLogi 的設定通常位於 `~/.config/openlogi/config.toml`。先讓 OpenLogi GUI 寫出你的實體裝置 key，再在對應的 bindings table 加入類似內容：
+OpenLogi 的設定通常位於 `~/.config/openlogi/config.toml`。請先完全結束 OpenLogi，再在對應的 bindings table 加入類似內容。`F13` 是本專案選用的無修飾鍵，不受注音輸入法、Command/Option 鍵盤標示或鍵盤配置影響：
 
 ```toml
 [devices."<your-physical-device-key>".bindings]
-Back = { CustomShortcut = "Cmd+Shift+9" }
+Forward = { CustomShortcut = "F13" }
 ```
 
-`<your-physical-device-key>` 不能照抄這個範例；它可能是 `unit:<hex>`、`serial:<id>` 或其他由 OpenLogi 寫出的實體 key。若要使用其他按鍵，把 `Back` 換成 GUI 顯示的按鍵名稱。
+`<your-physical-device-key>` 不能照抄這個範例；它可能是 `unit:<hex>`、`serial:<id>` 或其他由 OpenLogi 寫出的實體 key。若要使用其他按鍵，把 `Forward` 換成 GUI 顯示的按鍵名稱。
 
-完成後重新載入 OpenLogi，或重新啟動它。若簡報軟體對 `⌘⇧9` 有自己的功能，可以在 `~/Library/Application Support/OpenLogiSpotlight/config.json` 改用其他未使用的快捷鍵，並同步更新 OpenLogi binding。
+完成後重新啟動 OpenLogi 與 OpenLogi Spotlight。OpenLogi Spotlight 的設定檔位於 `~/Library/Application Support/OpenLogiSpotlight/config.json`；若要改用其他 F13–F20，必須同步修改兩邊。
 
 ## 故障排除
 
-- 聚光燈快捷鍵可用，但滑鼠按鍵無效：檢查 OpenLogi 是否仍在執行、是否與 Options+ 同時開啟，以及 OpenLogi 的 Accessibility/Input Monitoring 權限。
-- 滑鼠按鍵有動作但 overlay 不出現：在「系統設定 → 隱私權與安全性 → 輔助使用」允許 OpenLogiSpotlight，然後重新啟動 app。
+- 聚光燈快捷鍵可用，但滑鼠按鍵無效：檢查 OpenLogi 是否仍在執行、是否與 Options+ 同時開啟，以及 `config.toml` 是否真的有 `Forward = { CustomShortcut = "F13" }`。
+- 滑鼠按鍵有動作但 overlay 不出現：在「系統設定 → 隱私權與安全性 → 輔助使用」允許 OpenLogiSpotlight，然後重新啟動 app。若剛重新安裝或重新編譯，macOS 可能要求重新勾選一次。
 - 全螢幕簡報蓋住 overlay：退出 app 後重新開啟，確認它是以 `OpenLogiSpotlight.app` bundle 啟動，而不是只執行裸 binary。

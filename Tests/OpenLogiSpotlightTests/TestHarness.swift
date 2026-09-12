@@ -3,24 +3,24 @@ import AppKit
 @main
 struct ConfigurationTestHarness {
     static func main() {
-        testDefaultHotKeyMatchesOnlyCommandShiftNine()
-        testDisplayNameUsesMacModifierSymbols()
+        testDefaultHotKeyMatchesOnlyF13()
+        testDisplayNameUsesF13()
         testConfigurationDecodingUsesDefaultsForOmittedValues()
         testConfigurationNormalizationClampsRefreshRate()
         print("OpenLogi Spotlight configuration tests passed")
     }
 
-    private static func testDefaultHotKeyMatchesOnlyCommandShiftNine() {
+    private static func testDefaultHotKeyMatchesOnlyF13() {
         let hotKey = HotKey.default
-        let commandShift = NSEvent.ModifierFlags([.command, .shift]).rawValue
+        let noModifiers = NSEvent.ModifierFlags().rawValue
 
-        precondition(hotKey.matches(keyCode: 25, modifierFlagsRawValue: commandShift))
-        precondition(!hotKey.matches(keyCode: 25, modifierFlagsRawValue: NSEvent.ModifierFlags.command.rawValue))
-        precondition(!hotKey.matches(keyCode: 18, modifierFlagsRawValue: commandShift))
+        precondition(hotKey.matches(keyCode: 105, modifierFlagsRawValue: noModifiers))
+        precondition(!hotKey.matches(keyCode: 105, modifierFlagsRawValue: NSEvent.ModifierFlags.command.rawValue))
+        precondition(!hotKey.matches(keyCode: 104, modifierFlagsRawValue: noModifiers))
     }
 
-    private static func testDisplayNameUsesMacModifierSymbols() {
-        precondition(HotKey.default.displayName == "⌘⇧9")
+    private static func testDisplayNameUsesF13() {
+        precondition(HotKey.default.displayName == "F13")
     }
 
     private static func testConfigurationDecodingUsesDefaultsForOmittedValues() {

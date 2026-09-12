@@ -5,7 +5,7 @@ Logitech mouse button
         │
         ▼
 OpenLogi HID++ / input hook
-        │  CustomShortcut = Cmd+Shift+9
+        │  CustomShortcut = F13
         ▼
 macOS global key monitor
         │

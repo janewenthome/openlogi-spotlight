@@ -18,6 +18,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         configureStatusItem()
         installEventMonitors()
         updateMenu()
+        requestAccessibilityPermissionIfNeeded()
     }
 
     func applicationWillTerminate(_ notification: Notification) {
@@ -116,6 +117,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func updateMenu() {
+        statusItem?.button?.title = AXIsProcessTrusted() ? "◉" : "⚠️"
         toggleItem?.title = spotlightController.isActive
             ? "Hide Spotlight (\(configuration.hotKey.displayName))"
             : "Show Spotlight (\(configuration.hotKey.displayName))"
@@ -123,6 +125,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         permissionItem?.title = AXIsProcessTrusted()
             ? "Accessibility Permission: Granted"
             : "Open Accessibility Settings…"
+    }
+
+    private func requestAccessibilityPermissionIfNeeded() {
+        guard !AXIsProcessTrusted() else { return }
+
+        let options = [
+            kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true,
+        ] as CFDictionary
+        _ = AXIsProcessTrustedWithOptions(options)
     }
 
     @objc private func toggleSpotlight() {

@@ -27,4 +27,4 @@ Build a small macOS companion app with three isolated concerns:
 2. `SpotlightController` owns one click-through overlay window per screen and cursor tracking.
 3. `SpotlightConfiguration` owns a versioned, user-editable JSON file and shortcut matching.
 
-The default workflow is: physical Logitech button → OpenLogi `CustomShortcut` → `⌘⇧9` → companion app toggles overlay.
+The default workflow is: physical Logitech button → OpenLogi `CustomShortcut` → `F13` → companion app toggles overlay. F13 is intentionally modifier-free so the bridge is independent of keyboard layout, IME state, and Windows-key labels.
