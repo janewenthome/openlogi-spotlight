@@ -1,0 +1,166 @@
+import AppKit
+import Foundation
+
+enum HotKeyModifier: String, Codable, CaseIterable {
+    case command
+    case shift
+    case option
+    case control
+
+    var symbol: String {
+        switch self {
+        case .command: "⌘"
+        case .shift: "⇧"
+        case .option: "⌥"
+        case .control: "⌃"
+        }
+    }
+}
+
+struct HotKey: Codable, Equatable {
+    var keyCode: UInt16
+    var modifiers: [HotKeyModifier]
+
+    static let `default` = HotKey(keyCode: 25, modifiers: [.command, .shift])
+
+    init(keyCode: UInt16 = 25, modifiers: [HotKeyModifier] = [.command, .shift]) {
+        self.keyCode = keyCode
+        self.modifiers = modifiers
+    }
+
+    func matches(keyCode: UInt16, modifierFlagsRawValue: UInt) -> Bool {
+        guard self.keyCode == keyCode else { return false }
+
+        let flags = NSEvent.ModifierFlags(rawValue: modifierFlagsRawValue)
+        let relevantFlags = flags.intersection([.command, .control, .option, .shift])
+        return relevantFlags == eventModifiers
+    }
+
+    var eventModifiers: NSEvent.ModifierFlags {
+        modifiers.reduce(into: []) { result, modifier in
+            switch modifier {
+            case .command: result.insert(.command)
+            case .shift: result.insert(.shift)
+            case .option: result.insert(.option)
+            case .control: result.insert(.control)
+            }
+        }
+    }
+
+    var displayName: String {
+        let modifierSymbols = modifiers.map(\.symbol).joined()
+        return modifierSymbols + keyLabel
+    }
+
+    private var keyLabel: String {
+        switch keyCode {
+        case 49: "Space"
+        case 36: "↩"
+        case 48: "⇥"
+        case 53: "Esc"
+        case 25: "9"
+        default: "Key (keyCode)"
+        }
+    }
+}
+
+struct SpotlightConfiguration: Codable, Equatable {
+    var hotKey: HotKey
+    var dimOpacity: Double
+    var spotlightRadius: Double
+    var ringWidth: Double
+    var ringColorHex: String
+    var cursorRefreshRate: Double
+
+    static let `default` = SpotlightConfiguration(
+        hotKey: .default,
+        dimOpacity: 0.62,
+        spotlightRadius: 120,
+        ringWidth: 4,
+        ringColorHex: "FFD400",
+        cursorRefreshRate: 60
+    )
+
+    init(
+        hotKey: HotKey,
+        dimOpacity: Double,
+        spotlightRadius: Double,
+        ringWidth: Double,
+        ringColorHex: String,
+        cursorRefreshRate: Double
+    ) {
+        self.hotKey = hotKey
+        self.dimOpacity = dimOpacity
+        self.spotlightRadius = spotlightRadius
+        self.ringWidth = ringWidth
+        self.ringColorHex = ringColorHex
+        self.cursorRefreshRate = cursorRefreshRate
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        hotKey = try values.decodeIfPresent(HotKey.self, forKey: .hotKey) ?? .default
+        dimOpacity = try values.decodeIfPresent(Double.self, forKey: .dimOpacity) ?? 0.62
+        spotlightRadius = try values.decodeIfPresent(Double.self, forKey: .spotlightRadius) ?? 120
+        ringWidth = try values.decodeIfPresent(Double.self, forKey: .ringWidth) ?? 4
+        ringColorHex = try values.decodeIfPresent(String.self, forKey: .ringColorHex) ?? "FFD400"
+        cursorRefreshRate = try values.decodeIfPresent(Double.self, forKey: .cursorRefreshRate) ?? 60
+    }
+
+    var normalized: SpotlightConfiguration {
+        var copy = self
+        copy.dimOpacity = min(max(copy.dimOpacity, 0), 0.95)
+        copy.spotlightRadius = min(max(copy.spotlightRadius, 24), 600)
+        copy.ringWidth = min(max(copy.ringWidth, 0), 24)
+        copy.cursorRefreshRate = min(max(copy.cursorRefreshRate, 15), 120)
+        return copy
+    }
+}
+
+final class ConfigurationStore {
+    let url: URL
+
+    init(fileManager: FileManager = .default) {
+        let applicationSupport = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        url = applicationSupport
+            .appendingPathComponent("OpenLogiSpotlight", isDirectory: true)
+            .appendingPathComponent("config.json")
+    }
+
+    init(url: URL) {
+        self.url = url
+    }
+
+    func load() -> SpotlightConfiguration {
+        guard let data = try? Data(contentsOf: url),
+              let configuration = try? JSONDecoder().decode(SpotlightConfiguration.self, from: data)
+        else {
+            let configuration = SpotlightConfiguration.default
+            save(configuration)
+            return configuration
+        }
+        return configuration.normalized
+    }
+
+    func save(_ configuration: SpotlightConfiguration) {
+        let normalized = configuration.normalized
+        guard let data = try? JSONEncoder.prettyPrinted.encode(normalized) else { return }
+        do {
+            try FileManager.default.createDirectory(
+                at: url.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
+            try data.write(to: url, options: .atomic)
+        } catch {
+            NSLog("OpenLogi Spotlight could not save configuration: %@", error.localizedDescription)
+        }
+    }
+}
+
+private extension JSONEncoder {
+    static var prettyPrinted: JSONEncoder {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        return encoder
+    }
+}
