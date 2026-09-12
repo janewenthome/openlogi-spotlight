@@ -19,3 +19,10 @@
 - 已偵測到實體裝置 `LIFT For Business`，並將 `Forward (側鍵 5)` 寫入 `CustomShortcut = "F13"`。
 - 已同步將 companion app 預設快捷鍵改成無修飾鍵 `F13`，避免注音輸入法及 Windows 鍵盤的 Command/Option 標示差異。
 - 手動從選單列啟動 overlay 已驗證視窗正常建立；硬體快捷鍵測試待使用者在 macOS「輔助使用」中允許 `OpenLogiSpotlight` 後重新啟動 app。
+
+## 2026-09-13 — 公開排錯紀錄
+
+- 踩坑：`OpenLogiAgent.app` 的「輸入監控」與 `OpenLogiSpotlight.app` 的「輔助使用」是兩個獨立權限；只開其中一個時，另一段按鍵鏈路仍會失效。
+- 踩坑：macOS 權限清單可能留下同名但不同路徑的 ad-hoc app；應加入安裝後的 `~/Applications/OpenLogiSpotlight.app`，不要加入 `outputs/` 編譯產物。
+- 踩坑：授權切換後必須完全重啟對應 app；以選單列 `◉` 與 `Accessibility Permission: Granted` 作為 companion 已準備好的判斷。
+- 踩坑：Bluetooth 顯示 LIFT 已連線時，`openlogi list` 仍可能因 background agent 已持有 HID++ channel 而回報無法開啟；不能只用這個 CLI 輸出判定滑鼠斷線。

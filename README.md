@@ -22,7 +22,7 @@
    ./scripts/install.sh
    ```
 
-3. 第一次啟動時，允許 macOS 跳出的 `OpenLogiSpotlight` 輔助使用提示；若沒有跳出，請到「系統設定 → 隱私權與安全性 → 輔助使用」手動加入它。
+3. 設定兩個不同的 macOS 權限：Bluetooth 直連的 LIFT 需要讓 `OpenLogiAgent.app` 使用「輸入監控」；本 companion app 則需要在「輔助使用」中允許 `OpenLogiSpotlight.app`。兩者不是同一個開關，詳見 [排錯指南](docs/TROUBLESHOOTING.md)。
 4. 依照 [OpenLogi 設定說明](docs/OPENLOGI-SETUP.md)，把滑鼠的 Forward 側鍵映射成 `F13`。
 5. 開啟 PowerPoint、Keynote、Google Slides 或其他簡報播放畫面，按下該滑鼠按鍵即可切換聚光燈。
 
@@ -39,6 +39,16 @@ open outputs/OpenLogiSpotlight.app
 - 多螢幕 overlay，視窗會跟隨游標所在螢幕。
 - 選單列常駐，可手動切換、開啟輔助使用設定與結束程式。
 - 設定檔放在 `~/Library/Application Support/OpenLogiSpotlight/config.json`，可調整快捷鍵、透明度、光圈半徑與外框顏色。
+
+## 權限與常見陷阱
+
+- 選單列顯示 `⚠️` 代表 `OpenLogiSpotlight` 尚未取得「輔助使用」信任；顯示 `◉` 才代表全域 F13 監聽已準備好。
+- 「輸入監控」的 `OpenLogiAgent.app` 授權只負責讓 OpenLogi 讀取 Bluetooth 滑鼠；它不會替 `OpenLogiSpotlight.app` 授權。
+- 授權後必須完全退出並重新開啟對應程式。重新編譯或重新安裝 ad-hoc app 後，macOS 可能需要移除舊項目，再加入目前的 `~/Applications/OpenLogiSpotlight.app`。
+- `outputs/OpenLogiSpotlight.app` 是編譯產物，不是安裝後應加入權限清單的版本；安裝腳本使用的是 `~/Applications/OpenLogiSpotlight.app`。
+- OpenLogi v0.7.4 GUI 沒有 Custom Shortcut；請使用 TOML 設定 `F13`，不要在內建動作清單中尋找 `⌘⇧9`。
+
+完整排錯步驟請看 [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)。
 
 ## 專案資料夾
 
